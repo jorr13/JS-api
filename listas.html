@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="main">
+        <ul>
+            <li v-for="item in people" >{{ item.nombre }} {{ item.apellido }}</li>
+
+        </ul>
+        <input type="text" v-model="name" v-on:keyup.enter="addName" placeholder="nombre">
+        <input type="text" v-model="apell" v-on:keyup.enter="addName" placeholder="apellido">
+    </div>
+   
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.0/vue.js"></script>
+
+    <script>
+    new Vue({
+        el: '#main',
+        data: {
+            people: [
+                { nombre: 'jerinson',  
+                 apellido: 'rodriguez'}
+            ]
+  
+            
+        },
+        name: '',
+        apell: '',
+        methods: {
+            addName: function(){
+                var objeto = {
+                    "nombre":this.name,
+                    "apellido":this.apell
+                };
+                this.people.push(objeto);
+            }
+        }
+       
+    });
+    
+    </script>
+</body>
+</html>

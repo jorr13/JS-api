@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta http-equiv="Content-Type" content="text/html; charset=euc-jp">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blog</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <div id="main" class="container">
+       <div class="row">
+            <div class="col-ms-8">
+                <h1>datos del formulario</h1>
+                <input type="text" name="" id="name" placeholder="nombre"><br><br>
+                <input type="text" name="" id="email" placeholder="email"><br><br>
+                <input type="text" name="" id="ci"placeholder="Cedula"><br><br>
+                <input type="text" name="" id="password"placeholder="ingrese su contrase単a">
+                <button v-on:click="createUser" id="createUser">Crear usuario</button>
+               
+            </div>
+
+           <div class="">
+               <h1>lista ajax</h1>
+               <ul class="list-group">
+                   <li v-for="item in lists" class="list-group-item col-md-4">
+                       
+                        <a href="#">
+                            <h1>{{ item.name }}</h1>
+                            <h3>{{ item.ci }}</h3>
+                            <h3>{{ item.email }}</h3>
+                        </a>
+                   </li>
+               </ul>
+           </div>
+           <div class="col-ms-8">
+                <h1>Json</h1>
+                <pre>
+                    {{ $data | json }}
+                </pre>
+            </div>
+       </div>
+    </div>
+   
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.0/vue.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script>
+        var urlUsers = 'https://ivorystack.com/blogjer/usuarios';
+        var geturl = '/prueba.html';
+       //var createUseres ="https://ivorystack.com/blogjer/usuarios";
+        new Vue({
+            el: '#main',
+            created: function(){
+                this.getUsers();
+            },
+            created1: function(){
+                this.getResul();
+            },
+            data() {
+                return {
+                    lists:[]
+                }
+            },
+           methods: {
+                getUsers: function() {
+                    axios.get(urlUsers).then(response => {
+                        this.lists = response.data
+                    });
+                },
+                
+                getResul: function() {
+                    axios.get(geturl).then(response => {
+                        this.lists = response.data
+                    });
+                },
+                
+                createUser: function(){
+                    var btnCreateUser = document.getElementById("createUser");
+                    btnCreateUser.onclick = function(){
+
+                        var name = document.getElementById("name").value;
+                        var email = document.getElementById("email").value;
+                        var ci = document.getElementById("ci").value;
+                        var password = document.getElementById("password").value;
+                        var data = {
+                            "name" : name,
+                            "email" : email,
+                            "ci" : ci,
+                            "password" : password
+                        };
+
+                        axios.post('https://ivorystack.com/blogjer/usuarios', data)
+                        .then(function (response) {
+                            console.log(response);
+                            this.lists.push(response.data)
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+                    }
+                }
+            }
+        });
+
+           
+    
+    </script>
+</body>
+</html>
